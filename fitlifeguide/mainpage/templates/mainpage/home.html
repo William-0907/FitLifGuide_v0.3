@@ -1,7 +1,40 @@
-{% extends "mainpage/base.html" %}
-
-{% block title %}Home | MyApp{% endblock %}
+{% extends 'mainpage/base.html' %}
+{% block title %}Home - FitLifeGuide{% endblock %}
 
 {% block content %}
-<h2>This is the homepage content</h2>
+<div class="container px-5 py-4 text-white">
+
+    <h1 class="mb-4">Welcome Back to <span class="text-info">FitLifeGuide</span>!</h1>
+
+    <!-- What's New Section -->
+    <div class="mb-5">
+        <h3 class="text-success">✨ What's New</h3>
+        <ul class="list-group list-group-flush bg-dark">
+            <li class="list-group-item bg-dark text-light">New video tutorials added under the "Videos" section.</li>
+            <li class="list-group-item bg-dark text-light">Forum now supports image attachments and rich text formatting.</li>
+            <li class="list-group-item bg-dark text-light">Improved navigation bar for easier access on mobile devices.</li>
+        </ul>
+    </div>
+
+    <!-- Fixes Section -->
+    <div class="mb-5">
+        <h3 class="text-warning">🛠️ Fixes & Improvements</h3>
+        <ul class="list-group list-group-flush bg-dark">
+            <li class="list-group-item bg-dark text-light">Fixed login redirect issue for authenticated users.</li>
+            <li class="list-group-item bg-dark text-light">Resolved display bugs in the profile page on smaller screens.</li>
+            <li class="list-group-item bg-dark text-light">Search bar performance enhanced for faster results.</li>
+        </ul>
+    </div>
+
+    <!-- Upcoming Features Section -->
+    <div class="mb-5">
+        <h3 class="text-info">🚀 Coming Soon</h3>
+        <ul class="list-group list-group-flush bg-dark">
+            <li class="list-group-item bg-dark text-light">Personalized fitness plan generator based on user data.</li>
+            <li class="list-group-item bg-dark text-light">Nutrition tracker with daily logs and reminders.</li>
+            <li class="list-group-item bg-dark text-light">Mobile app integration for on-the-go access.</li>
+        </ul>
+    </div>
+
+</div>
 {% endblock %}
