@@ -2,7 +2,7 @@
 {% block title %}Welcome to FitLifeGuide{% endblock %}
 
 {% block content1 %}
-<div class=" text-light text-center shadow-sm  h-100 p-5">
+<div class="{% if user.is_authenticated %}d-none{% else %} text-light text-center shadow-sm  h-100 py-5 {% endif %}">
     <h1 class="display-1 fw-bold grad">Welcome to FitLifeGuide</h1>
     <p class="lead">Your journey to a healthier, stronger, and better life starts here.</p>
     <a href="{% url 'register' %}" class="btn btn-primary btn-lg rounded-pill">Join Now</a>

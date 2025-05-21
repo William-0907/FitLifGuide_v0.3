@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms', 
     'crispy_bootstrap5',
     'widget_tweaks',
-    'mainpage','store','tools','users','utilities',
+    'mainpage','store','tools','users','utilities','community',
 ]
 
 MIDDLEWARE = [
