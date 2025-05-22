@@ -58,6 +58,7 @@ class Thread(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='threads')
+    content = models.TextField(default='')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

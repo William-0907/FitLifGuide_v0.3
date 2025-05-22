@@ -66,3 +66,7 @@ h3 {
   color: white; /* text color while typing */
   background-color: transparent; /* keep transparent */
 }
+
+.h-cyan ul li a:hover{
+  color:#28f5fcc9;
+}

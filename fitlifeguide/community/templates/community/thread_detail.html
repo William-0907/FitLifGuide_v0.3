@@ -1,0 +1,11 @@
+{% extends 'mainpage/base.html' %}
+{% block title %}{{ thread.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5 text-light">
+    <h2>{{ thread.title }}</h2>
+    <p>Forum: {{ thread.forum.name }}</p>
+    <p>Created at: {{ thread.created_at }}</p>
+    <!-- Add replies or content display here -->
+</div>
+{% endblock %}

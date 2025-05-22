@@ -1,0 +1,54 @@
+{% extends 'mainpage/base.html' %}
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block title %}Start a New Discussion{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card bg-dark text-light p-4 shadow-lg mx-auto" style="max-width: 600px; border-radius: 1rem;">
+    <h2 class="mb-4">
+      <i class="bi bi-chat-square-text me-2 text-info"></i>Start a New Discussion
+    </h2>
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+
+      <!-- Forum Selection -->
+      <div class="mb-4">
+        <label for="id_forum" class="form-label fw-bold text-info">
+          <i class="bi bi-folder2-open me-1"></i>Select a Forum
+        </label>
+        {{ form.forum|add_class:"form-select bg-dark text-light border-secondary" }}
+        {% if form.forum.errors %}
+          <div class="text-danger small mt-1">{{ form.forum.errors }}</div>
+        {% endif %}
+        <div class="form-text text-muted">
+          Choose where your thread will be posted.
+        </div>
+      </div>
+
+      <!-- Thread Title -->
+      <div class="mb-4">
+        <label for="id_title" class="form-label fw-bold text-info">
+          <i class="bi bi-type me-1"></i>Thread Title
+        </label>
+        {{ form.title|add_class:"form-control bg-dark text-light border-secondary" }}
+        {% if form.title.errors %}
+          <div class="text-danger small mt-1">{{ form.title.errors }}</div>
+        {% endif %}
+        <div class="form-text text-muted">
+          Keep it clear and descriptive.
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="bi bi-check-circle me-1"></i> Create Thread
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,25 +1,115 @@
 {% extends 'mainpage/base.html' %}
 {% load static %}
 
+{% block title %}My Profile{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card p-4 shadow rounded-3">
-                <h3 class="text-center mb-4">Welcome, {{ user.username }}!</h3>
-                <ul class="list-group">
-                    <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
-                    <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
-                    <li class="list-group-item"><strong>Date Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</li>
-                </ul>
-                <div class="mt-4 text-center">
-                    <form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Logout</button>
-                    </form>
-                </div>
-            </div>
+<div class="container my-5">
+  <div class="row">
+    <!-- LEFT SIDEBAR: Profile Info -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm rounded bg-dark text-light">
+        <div class="card-body text-center">
+          <!-- User Avatar Placeholder -->
+          <img src="{% static 'images/default-avatar.png' %}" alt="User Avatar" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover; border: 3px solid #6c757d;">
+          
+          <h3 class="card-title">{{ user.username }}</h3>
+          <p class="text-secondary mb-1">Member since {{ user.date_joined|date:"F Y" }}</p>
+          <p class="text-muted">{{ user.email }}</p>
+          
+          <a href="{% url 'profile' %}" class="btn btn-outline-light btn-sm mt-3 w-100">
+            <i class="bi bi-pencil-square me-2"></i>Edit Profile
+          </a>
         </div>
+      </div>
     </div>
+
+    <!-- RIGHT CONTENT: Tabs for Posts, Meal Planner, Workouts -->
+    <div class="col-md-8">
+      <div class="card shadow-sm rounded bg-dark text-light">
+        <div class="card-header border-secondary">
+          <ul class="nav nav-tabs card-header-tabs" id="profileTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" type="button" role="tab" aria-controls="posts" aria-selected="true">
+                <i class="bi bi-chat-left-text me-1"></i>Posts
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="meal-tab" data-bs-toggle="tab" data-bs-target="#meal" type="button" role="tab" aria-controls="meal" aria-selected="false">
+                <i class="fa-solid fa-utensils me-1"></i>Meal Plans
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="workout-tab" data-bs-toggle="tab" data-bs-target="#workout" type="button" role="tab" aria-controls="workout" aria-selected="false">
+                <i class="fa-solid fa-dumbbell me-1"></i>Workouts
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-body tab-content" id="profileTabsContent" style="min-height: 350px;">
+          <!-- POSTS TAB -->
+          <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+            {% if posts %}
+              <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for post in posts %}
+                  <div class="col">
+                    <div class="card bg-secondary bg-opacity-10 h-100 border border-secondary text-light">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ post.created_at|date:"M d, Y" }}</h6>
+                        <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                      </div>
+                      <div class="card-footer bg-transparent border-top border-secondary text-end">
+                        <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-light btn-sm">
+                          View Post <i class="bi bi-arrow-right"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-muted"><i class="bi bi-info-circle me-1"></i>You haven’t posted anything yet.</p>
+            {% endif %}
+          </div>
+
+          <!-- MEAL PLANNER TAB -->
+          <div class="tab-pane fade" id="meal" role="tabpanel" aria-labelledby="meal-tab">
+            {% if meals %}
+              <ul class="list-group">
+                {% for meal in meals %}
+                  <li class="list-group-item bg-secondary bg-opacity-10 border-secondary text-light mb-2 rounded">
+                    <strong>{{ meal.get_meal_type_display }} - {{ meal.day_of_week }}</strong><br>
+                    {{ meal.food_items }} <br>
+                    <small class="text-muted">{{ meal.date }} | {{ meal.calories }} kcal | {{ meal.status }}</small>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted">No meal plans added yet.</p>
+            {% endif %}
+          </div>
+
+          <!-- WORKOUT PLANNER TAB -->
+          <div class="tab-pane fade" id="workout" role="tabpanel" aria-labelledby="workout-tab">
+            {% if workouts %}
+              <ul class="list-group">
+                {% for workout in workouts %}
+                  <li class="list-group-item bg-secondary bg-opacity-10 border-secondary text-light mb-2 rounded">
+                    <strong>{{ workout.title }} - {{ workout.day_of_week }}</strong><br>
+                    {{ workout.exercises }} <br>
+                    <small class="text-muted">{{ workout.date }} | {{ workout.duration_minutes }} min | {{ workout.status }}</small>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted">No workouts planned yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

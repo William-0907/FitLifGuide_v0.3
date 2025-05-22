@@ -66,7 +66,7 @@ def videos_views(request):
 
     search_params = {
         'part': 'snippet',
-        'q': 'workout videos',
+        'q': 'workout',
         'key': settings.YOUTUBE_DATA_API_KEY,
         'type': 'video',
         'maxResults': 15

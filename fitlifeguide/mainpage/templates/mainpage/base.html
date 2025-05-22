@@ -8,6 +8,9 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/bb98d90c72.js" crossorigin="anonymous"></script>
+
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'mainpage/styles.css' %}">
@@ -17,44 +20,104 @@
 <body class="d-flex flex-column min-vh-100 bg-dark">
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark bs-black">
-        <div class="container-fluid  mx-3 my-1">
-            <a class="navbar-brand grad fw-bold" href="{% url 'home' %}">FitLifeGuide</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                {% if user.is_authenticated %}
-                    <form class="d-flex mx-auto w-50 " role="search" method="get" action="{% url 'home' %}">
-                        <input class="form-control me-2 rounded-pill border-cyan transparent-bg "  type="search" placeholder="Search" name="q" aria-label="Search">
-                        <button class="btn btn-outline-light rounded-pill btn-cyan" type="submit">Search</button>
-                    </form>
-                {% endif %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top z-1">
+        <div class="container-fluid mx-3 my-1">
+            <!-- Brand -->
+            <div class="d-flex flex-grow-1 justify-content-center justify-content-lg-start">
+                <a class="navbar-brand grad fw-bold" href="{% url 'home' %}">FitLifeGuide</a>
+            </div>
 
-                <ul class="navbar-nav ms-auto gap-3">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Forum</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'posts' %}">Post</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'videos' %}">Videos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Store</a></li>
-                        <!-- <li class="nav-item"><a class="btn btn-light rounded-4" href="{% url 'profile' %}">Profile</a></li> -->
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-                        <li class="nav-item"><a class="btn btn-light rounded-5" href="{% url 'login' %}">Login</a></li>
-                        <li class="nav-item"><a class="btn btn-light rounded-5" href="{% url 'register' %}">Register</a></li>
-                    {% endif %}
+
+            <!-- Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible Content -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+            
+            {% if user.is_authenticated %}
+            <!-- Search Bar -->
+            <form class="d-flex mx-auto w-50 my-2 my-lg-0" role="search" method="get" action="{% url 'home' %}">
+                <div class="input-group">
+                <input type="search" class="form-control rounded-start-pill border-cyan transparent-bg"
+                        placeholder="Search" name="q" aria-label="Search">
+                <button class="btn btn-outline-light rounded-end-pill btn-cyan" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+                </div>
+            </form>
+            {% endif %}
+            <!-- Sidebar in Collapse (for small screens only) -->
+            {% if user.is_authenticated %}
+            <div class="d-lg-none mt-4">
+                <div class="card bg-dark text-light shadow-sm">
+                <div class="card-header bg-gradient text-white fw-bold">Profile</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-dark border-secondary">
+                    <a href="{% url 'profile' %}" class="text-decoration-none text-light d-block py-2">
+                        <i class="bi bi-person-circle me-2"></i>View Profile
+                    </a>
+                    </li>
+                    <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                        <i class="bi bi-emoji-smile me-2"></i>Edit Status
+                    </a>
+                    </li>
                 </ul>
+                <div class="card-header bg-gradient text-white fw-bold">FitLife Planner</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                        <i class="fa-solid fa-utensils me-2"></i>Meal Planner
+                    </a>
+                    </li>
+                    <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                        <i class="fa-solid fa-dumbbell me-2"></i>Workout Hub
+                    </a>
+                    </li>
+                    <li class="list-group-item bg-dark border-secondary">
+                    <form action="{% url 'logout' %}" method="post" class="m-0 p-0">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100">
+                        <i class="bi bi-box-arrow-right me-1"></i>Logout
+                        </button>
+                    </form>
+                    </li>
+                </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Nav Links -->
+            <ul class="navbar-nav ms-auto gap-3">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'forum_list' %}">Forum</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'posts' %}">Post</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'videos' %}">Videos</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Store</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                <li class="nav-item"><a class="btn btn-light rounded-5" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="btn btn-light rounded-5" href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+
+            
+            
             </div>
         </div>
     </nav>
 
-    <div class="{% if user.is_authenticated %}d-none {% else %}container-fluid py-5 h-100  bg-img{% endif %}">  
+
+    <div class="{% if user.is_authenticated %}d-none {% else %}container-fluid py-5 h-100 {% endif %}">  
         <div class="row py-5">
             <div class="{% if user.is_authenticated %}d-none{% else %}col-12 p-5{% endif %}">
                 {% block content1 %}
-                <!-- for landing page -->
+                <!-- for landing page -->   
                 {% endblock %}
             </div>
         </div>
@@ -62,7 +125,7 @@
 
 
     <!-- Page Layout -->
-    <div class="container-fluid flex-grow-1">
+    <div class="{% if user.is_authenticated %}container flex-grow-1{% else %}container flex-grow-1{% endif %}">
         <div class="row">
             <!-- Main Content -->
             <div class="{% if user.is_authenticated %}col-lg-9 col-md-8{% else %}col-12{% endif %}">
@@ -72,55 +135,108 @@
             </div>
 
             <!-- Right Sidebar (only if user is logged in) -->
-            {% if user.is_authenticated %}
-            <aside class="col-lg-3 col-md-4 mt-4 mt-md-0">
-                {% block sidebar %}
-                <div class="card bg-dark text-light shadow-sm">
-                    <div class="card-header bg-primary text-white fw-bold">
-                        Profile Settings
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-dark border-secondary">
-                            <a href="{% url 'profile' %}" class="text-decoration-none text-light d-block py-2">
-                                <i class="bi bi-person-circle me-2"></i>View Profile
-                            </a>
-                        </li>
-                        <li class="list-group-item bg-dark border-secondary">
-                            <a href="#" class="text-decoration-none text-light d-block py-2">
-                                <i class="bi bi-gear me-2"></i>Account Settings
-                            </a>
-                        </li>
-                        <li class="list-group-item bg-dark border-secondary">
-                            <form action="{% url 'logout' %}" method="post" class="m-0 p-0">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger w-100">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Logout
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-                {% endblock %}
+           {% if user.is_authenticated %}
+<!-- Sidebar for large screens -->
+            <aside class="col-lg-3 col-md-4 d-none d-lg-block mt-4 mt-md-0">
+            {% block sidebar %}
+            <div class="card bg-dark text-light shadow-sm position-fixed" style="width: 350px; height: 100vh;">
+                <div class="card-header bg-gradient text-white fw-bold">Profile</div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-secondary">
+                    <a href="{% url 'profile' %}" class="text-decoration-none text-light d-block py-2">
+                    <i class="bi bi-person-circle me-2"></i>View Profile
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <i class="bi bi-emoji-smile me-2"></i>Edit Status
+                    </a>
+                </li>
+                </ul>
+                <div class="card-header bg-gradient text-white fw-bold">FitLife Planner</div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <i class="fa-solid fa-utensils me-2"></i>Meal Planner
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <i class="fa-solid fa-dumbbell me-2"></i>Workout Hub
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-secondary">
+                    <form action="{% url 'logout' %}" method="post" class="m-0 p-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class="bi bi-box-arrow-right me-1"></i>Logout
+                    </button>
+                    </form>
+                </li>
+                </ul>
+            </div>
+            {% endblock %}
             </aside>
+
+            <!-- Sidebar as collapsible nav items for small screens -->
+            <div class="d-lg-none mt-3">
+            <div class="card bg-dark text-light shadow-sm">
+                <div class="card-header bg-gradient text-white fw-bold">Profile</div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-secondary">
+                    <a href="{% url 'profile' %}" class="text-decoration-none text-light d-block py-2">
+                    <i class="bi bi-person-circle me-2"></i>View Profile
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <i class="bi bi-emoji-smile me-2"></i>Edit Status
+                    </a>
+                </li>
+                </ul>
+                <div class="card-header bg-gradient text-white fw-bold">FitLife Planner</div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <i class="fa-solid fa-utensils me-2"></i>Meal Planner
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-secondary">
+                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <i class="fa-solid fa-dumbbell me-2"></i>Workout Hub
+                    </a>
+                </li>
+                <li class="list-group-item bg-dark border-secondary">
+                    <form action="{% url 'logout' %}" method="post" class="m-0 p-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class="bi bi-box-arrow-right me-1"></i>Logout
+                    </button>
+                    </form>
+                </li>
+                </ul>
+            </div>
+            </div>
             {% endif %}
+
 
         </div>
     </div>
-    <hr class="border-secondary" />
 
+    
     <!-- Footer -->
-    <footer class="bg-dark text-light pt-5 pb-3 mt-5">
-    <div class="container">
-        <div class="row">
+    <footer class="bg-dark text-light z-3">
+    <div class="container border-top border-secondary ">
+        <div class="row mb-0 pt-3">
         <!-- Logo and Branding -->
-        <div class="col-md-3 mb-4">
+        <div class="col-md-3 ">
             <h4 class="grad fw-bold">
             <a href="#" class="text-decoration-none text-primary">FitLifeGuide</a>
             </h4>
         </div>
 
         <!-- Social Media -->
-        <div class="col-6 col-md-2 mb-4 fw-light">
+        <div class="col-6 col-md-2 fw-light h-cyan">
             <h6 class="text-uppercase fw-semibold">Social Media</h6>
             <ul class="list-unstyled">
             <li><a href="#" class="text-light text-decoration-none">Facebook</a></li>
@@ -131,7 +247,7 @@
         </div>
 
         <!-- Contact -->
-        <div class="col-6 col-md-3 mb-4 fw-light">
+        <div class="col-6 col-md-3 fw-light">
             <h6 class="text-uppercase fw-semibold">Contact Us</h6>
             <ul class="list-unstyled">
             <li><a href="tel:12341231234" class="text-light text-decoration-none">1234-123-1234</a></li>
@@ -141,7 +257,7 @@
         </div>
 
         <!-- Help -->
-        <div class="col-6 col-md-2 mb-4 fw-light">
+        <div class="col-6 col-md-2 fw-light">
             <h6 class="text-uppercase fw-semibold">Help</h6>
             <ul class="list-unstyled">
             <li><a href="#" class="text-light text-decoration-none">Suggestions & Recommendation</a></li>
@@ -151,7 +267,7 @@
         </div>
 
         <!-- More -->
-        <div class="col-6 col-md-2 mb-4 fw-light">
+        <div class="col-6 col-md-2 fw-light">
             <h6 class="text-uppercase fw-semibold">More</h6>
             <ul class="list-unstyled">
             <li><a href="#" class="text-light text-decoration-none">Guidelines</a></li>
@@ -167,7 +283,7 @@
         </div>
     </div>
     </footer>
-
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
