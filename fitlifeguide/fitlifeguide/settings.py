@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms', 
     'crispy_bootstrap5',
     'widget_tweaks',
-    'mainpage','store','tools','users','utilities','community',
+    'mainpage','store','tools','users','utilities','community','videos',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +119,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+YOUTUBE_DATA_API_KEY = 'AIzaSyAE4iLUbuhKKP6LS9ff9A7lHMjYbbkNE98'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

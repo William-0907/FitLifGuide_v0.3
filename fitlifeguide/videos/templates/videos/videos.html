@@ -1,0 +1,38 @@
+{% extends 'mainpage/base.html' %}
+{% load static %}
+
+{% block title %}Workout Videos{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="text-light mb-4">Workout Videos</h2>
+
+  <div class="list-group">
+    {% for video in videos %}
+      <a href="https://www.youtube.com/watch?v={{ video.id }}" 
+         target="_blank" 
+         rel="noopener noreferrer"
+         class="list-group-item list-group-item-action bg-dark text-white border-secondary rounded mb-3">
+        
+        <div class="row g-3 align-items-center">
+          <div class="col-md-4 col-lg-3">
+            <div class="position-relative">
+              <img src="{{ video.thumbnail }}" class="img-fluid rounded" alt="{{ video.title }}">
+              <span class="position-absolute bottom-0 end-0 bg-dark bg-opacity-75 text-white px-2 py-1 small m-1 rounded">
+                {{ video.duration|default:"N/A" }}
+              </span>
+            </div>
+          </div>
+          <div class="col-md-8 col-lg-9">
+            <h5 class="mb-2">{{ video.title|truncatechars:80 }}</h5>
+            <p class="text-muted mb-0 small">Click to watch on YouTube</p>
+          </div>
+        </div>
+        
+      </a>
+    {% empty %}
+      <div class="text-light">No videos found.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

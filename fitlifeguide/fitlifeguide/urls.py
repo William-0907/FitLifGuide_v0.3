@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mainpage.urls')),
     path('', include('users.urls')),
-    # path('', include('users/urls')),
-    # path('', include('utilities/urls')),
+    path('', include('videos.urls')),
+    path('', include('community.urls')),
 
 ]
