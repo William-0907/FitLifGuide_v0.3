@@ -6,51 +6,32 @@
 {% block content %}
 <div class="container my-5 text-light">
 
-  <!-- Start a Discussion Card -->
-  <div class="card bg-dark border-secondary mb-5">
-    <div class="card-body">
-      <h4 class="card-title text-info">
-        <i class="bi bi-pencil-square me-2"></i>Start a New Discussion
-      </h4>
-      <p class="card-text text-light">
-        Have something to share? Start a new thread and join the conversation!
-      </p>
-      <a href="{% url 'thread_create' %}" class="btn btn-info">
-        <i class="bi bi-plus-circle me-1"></i> Start a Discussion
-      </a>
-
-
-
-        <i class="bi bi-plus-circle me-1"></i> Start a Discussion
-      </a>
-    </div>
-  </div>
-
   <!-- Forums Section -->
   <h2 class="mb-4"><i class="bi bi-chat-dots me-2"></i>Forums</h2>
 
   {% if forums %}
-  <a href="{% url 'thread_create' %}">Start a New Discussion</a>
-
   <div class="row">
     {% for forum in forums %}
     <div class="col-md-6 col-lg-4 mb-4">
       <div class="card bg-dark border-secondary h-100 shadow-sm forum-card">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title text-info">{{ forum.name }}</h5>
-          <p class="card-text text-muted mb-3">
+          <p class="card-text text-light mb-3">
             {{ forum.description|default:"No description available." }}
           </p>
           <p class="card-text mt-auto">
             <small class="text-light">{{ forum.threads.count }} thread{{ forum.threads.count|pluralize }}</small><br>
             {% if forum.threads.last %}
-              <small class="text-muted">Last post: {{ forum.threads.last.created_at|date:"M d, Y H:i" }}</small>
+              <small class="text-light">Last post: {{ forum.threads.last.created_at|date:"M d, Y H:i" }}</small>
             {% else %}
-              <small class="text-muted">No posts yet</small>
+              <small class="text-light">No posts yet</small>
             {% endif %}
           </p>
           <a href="{% url 'forum_threads' forum.slug %}" class="btn btn-outline-info btn-sm mt-2">
             View Threads
+          </a>
+          <a href="{% url 'thread_create' forum.slug %}" class="btn btn-info btn-sm mt-2">
+            <i class="bi bi-plus-circle me-1"></i> New Thread
           </a>
         </div>
       </div>
@@ -58,7 +39,7 @@
     {% endfor %}
   </div>
   {% else %}
-  <p class="text-muted">No forums available yet.</p>
+  <p class="text-light">No forums available yet.</p>
   {% endif %}
 </div>
 
@@ -70,5 +51,4 @@
     transition: 0.3s ease;
   }
 </style>
-
 {% endblock %}

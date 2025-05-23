@@ -92,17 +92,17 @@
 
             <!-- Nav Links -->
             <ul class="navbar-nav ms-auto gap-3">
-                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'home' %}">Home</a></li>
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'forum_list' %}">Forum</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'posts' %}">Post</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'videos' %}">Videos</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Store</a></li>
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'forum_list' %}">Forum</a></li>
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'posts' %}">Post</a></li>
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'videos' %}">Videos</a></li>
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'home' %}">Store</a></li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-                <li class="nav-item"><a class="btn btn-light rounded-5" href="{% url 'login' %}">Login</a></li>
-                <li class="nav-item"><a class="btn btn-light rounded-5" href="{% url 'register' %}">Register</a></li>
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'about' %}">About</a></li>
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'contact' %}">Contact</a></li>
+                <li class="nav-item"><a class="btn btn-cyan rounded-5" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="btn btn-cyan rounded-5" href="{% url 'register' %}">Register</a></li>
                 {% endif %}
             </ul>
 
@@ -113,9 +113,9 @@
     </nav>
 
 
-    <div class="{% if user.is_authenticated %}d-none {% else %}container-fluid py-5 h-100 {% endif %}">  
-        <div class="row py-5">
-            <div class="{% if user.is_authenticated %}d-none{% else %}col-12 p-5{% endif %}">
+    <div class="{% if user.is_authenticated %}d-none {% else %}container-fluid {% endif %}">  
+        <div class="row">
+            <div class="{% if user.is_authenticated %}d-none{% else %}container-fluid col-12 bg-img{% endif %}">
                 {% block content1 %}
                 <!-- for landing page -->   
                 {% endblock %}
@@ -125,8 +125,19 @@
 
 
     <!-- Page Layout -->
-    <div class="{% if user.is_authenticated %}container flex-grow-1{% else %}container flex-grow-1{% endif %}">
+    <div class="{% if user.is_authenticated %}container-fluid flex-grow-1{% else %}container-fluid flex-grow-1{% endif %}">
         <div class="row">
+            {% if messages %}
+                <div class="container mt-3">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <!-- Main Content -->
             <div class="{% if user.is_authenticated %}col-lg-9 col-md-8{% else %}col-12{% endif %}">
                 {% block content %}
@@ -140,28 +151,28 @@
             <aside class="col-lg-3 col-md-4 d-none d-lg-block mt-4 mt-md-0">
             {% block sidebar %}
             <div class="card bg-dark text-light shadow-sm position-fixed" style="width: 350px; height: 100vh;">
-                <div class="card-header bg-gradient text-white fw-bold">Profile</div>
+                <div class="card-header bg-gradient text-info fw-bold">Profile</div>
                 <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark border-secondary">
-                    <a href="{% url 'profile' %}" class="text-decoration-none text-light d-block py-2">
+                    <a href="{% url 'profile' %}" class="text-decoration-none text-aqua d-block py-2">
                     <i class="bi bi-person-circle me-2"></i>View Profile
                     </a>
                 </li>
                 <li class="list-group-item bg-dark border-secondary">
-                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <a href="#" class="text-decoration-none text-aqua d-block py-2">
                     <i class="bi bi-emoji-smile me-2"></i>Edit Status
                     </a>
                 </li>
                 </ul>
-                <div class="card-header bg-gradient text-white fw-bold">FitLife Planner</div>
+                <div class="card-header bg-gradient text-info fw-bold">FitLife Planner</div>
                 <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark border-secondary">
-                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <a href="#" class="text-decoration-none text-aqua d-block py-2">
                     <i class="fa-solid fa-utensils me-2"></i>Meal Planner
                     </a>
                 </li>
                 <li class="list-group-item bg-dark border-secondary">
-                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <a href="#" class="text-decoration-none text-aqua d-block py-2">
                     <i class="fa-solid fa-dumbbell me-2"></i>Workout Hub
                     </a>
                 </li>
@@ -179,17 +190,17 @@
             </aside>
 
             <!-- Sidebar as collapsible nav items for small screens -->
-            <div class="d-lg-none mt-3">
+            <div class="d-none mt-3">
             <div class="card bg-dark text-light shadow-sm">
                 <div class="card-header bg-gradient text-white fw-bold">Profile</div>
                 <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark border-secondary">
-                    <a href="{% url 'profile' %}" class="text-decoration-none text-light d-block py-2">
+                    <a href="{% url 'profile' %}" class="text-decoration-none text-aqua d-block py-2">
                     <i class="bi bi-person-circle me-2"></i>View Profile
                     </a>
                 </li>
                 <li class="list-group-item bg-dark border-secondary">
-                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <a href="#" class="text-decoration-none text-aqua d-block py-2">
                     <i class="bi bi-emoji-smile me-2"></i>Edit Status
                     </a>
                 </li>
@@ -197,12 +208,12 @@
                 <div class="card-header bg-gradient text-white fw-bold">FitLife Planner</div>
                 <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-dark border-secondary">
-                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <a href="#" class="text-decoration-none text-aqua d-block py-2">
                     <i class="fa-solid fa-utensils me-2"></i>Meal Planner
                     </a>
                 </li>
                 <li class="list-group-item bg-dark border-secondary">
-                    <a href="#" class="text-decoration-none text-light d-block py-2">
+                    <a href="#" class="text-decoration-none text-aqua d-block py-2">
                     <i class="fa-solid fa-dumbbell me-2"></i>Workout Hub
                     </a>
                 </li>

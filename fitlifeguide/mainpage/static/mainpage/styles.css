@@ -4,7 +4,11 @@
   background-color: #020311d8;
   background-size:cover;
   background-position: center;
+
     
+}
+.bg-full{
+  height: 100vh;
 }
 
 .grad{
@@ -24,10 +28,27 @@
 }
 .btn-cyan:hover {
   background-color: rgba(14, 189, 212, 0.205);
+  color: #10c5b6;
+  transform: translateY(-1px);
+  transition: ease 0.3s;
   border: 1px solid rgb(187, 255, 255);
 }
 .bg-linear{
     background-image: linear-gradient(45deg,#fda3ea,#b8c9ff,#c6fffa);
+}
+
+
+
+
+.btn-linear{
+  background-image: linear-gradient(45deg,#e7a4d9,#a2b3eb,#aeeee9);
+  color:#0c0c0c;
+}
+.btn-linear:hover{
+  background-image: linear-gradient(45deg,#fda3ea,#b8c9ff,#c6fffa);
+  transform: translateY(-1px);
+  transition: ease 0.3s;
+  color: #000000;
 }
 .border-cyan{
     border: 1px solid cyan;
@@ -70,3 +91,22 @@ h3 {
 .h-cyan ul li a:hover{
   color:#28f5fcc9;
 }
+
+.text-cyan{
+  color:#32d6ff;
+}
+.text-cyan:hover{
+  color:#32d6ff;
+  transform: translateY(-1px);
+  transition: ease 0.3s;
+}
+
+.text-aqua{
+  color:#77efff;
+}
+.text-aqua:hover{
+  color:#77efff;
+  transform: translateY(-1px);
+  transition: ease 0.3s;
+}
+

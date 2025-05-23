@@ -15,7 +15,7 @@
           
           <h3 class="card-title">{{ user.username }}</h3>
           <p class="text-secondary mb-1">Member since {{ user.date_joined|date:"F Y" }}</p>
-          <p class="text-muted">{{ user.email }}</p>
+          <p class="text-light">{{ user.email }}</p>
           
           <a href="{% url 'profile' %}" class="btn btn-outline-light btn-sm mt-3 w-100">
             <i class="bi bi-pencil-square me-2"></i>Edit Profile
@@ -57,7 +57,7 @@
                     <div class="card bg-secondary bg-opacity-10 h-100 border border-secondary text-light">
                       <div class="card-body">
                         <h5 class="card-title">{{ post.title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ post.created_at|date:"M d, Y" }}</h6>
+                        <h6 class="card-subtitle mb-2 text-light">{{ post.created_at|date:"M d, Y" }}</h6>
                         <p class="card-text">{{ post.content|truncatewords:20 }}</p>
                       </div>
                       <div class="card-footer bg-transparent border-top border-secondary text-end">
@@ -70,7 +70,7 @@
                 {% endfor %}
               </div>
             {% else %}
-              <p class="text-muted"><i class="bi bi-info-circle me-1"></i>You haven’t posted anything yet.</p>
+              <p class="text-light"><i class="bi bi-info-circle me-1"></i>You haven’t posted anything yet.</p>
             {% endif %}
           </div>
 
@@ -82,12 +82,12 @@
                   <li class="list-group-item bg-secondary bg-opacity-10 border-secondary text-light mb-2 rounded">
                     <strong>{{ meal.get_meal_type_display }} - {{ meal.day_of_week }}</strong><br>
                     {{ meal.food_items }} <br>
-                    <small class="text-muted">{{ meal.date }} | {{ meal.calories }} kcal | {{ meal.status }}</small>
+                    <small class="text-light">{{ meal.date }} | {{ meal.calories }} kcal | {{ meal.status }}</small>
                   </li>
                 {% endfor %}
               </ul>
             {% else %}
-              <p class="text-muted">No meal plans added yet.</p>
+              <p class="text-light">No meal plans added yet.</p>
             {% endif %}
           </div>
 
@@ -99,12 +99,12 @@
                   <li class="list-group-item bg-secondary bg-opacity-10 border-secondary text-light mb-2 rounded">
                     <strong>{{ workout.title }} - {{ workout.day_of_week }}</strong><br>
                     {{ workout.exercises }} <br>
-                    <small class="text-muted">{{ workout.date }} | {{ workout.duration_minutes }} min | {{ workout.status }}</small>
+                    <small class="text-light">{{ workout.date }} | {{ workout.duration_minutes }} min | {{ workout.status }}</small>
                   </li>
                 {% endfor %}
               </ul>
             {% else %}
-              <p class="text-muted">No workouts planned yet.</p>
+              <p class="text-light">No workouts planned yet.</p>
             {% endif %}
           </div>
         </div>

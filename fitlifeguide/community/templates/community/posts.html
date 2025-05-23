@@ -4,7 +4,7 @@
 {% block title %}Posts{% endblock %}
 
 {% block content %}
-<div class="container my-5 text-light">
+<div class="container my-5 text-light" style="max-width: 900px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
 
   <!-- Create Post Card -->
   {% if user.is_authenticated %}
@@ -34,7 +34,7 @@
           {{ post.title }}
         </a>
       </h4>
-      <p class="card-subtitle small mb-2 text-muted">
+      <p class="card-subtitle small mb-2 text-light">
         By {{ post.author.username }} · {{ post.created_at|date:"M d, Y" }}
       </p>
       <p class="card-text">
@@ -44,7 +44,7 @@
     </div>
   </div>
   {% empty %}
-  <p class="text-muted">No posts have been published yet.</p>
+  <p class="text-light">No posts have been published yet.</p>
   {% endfor %}
 </div>
 
