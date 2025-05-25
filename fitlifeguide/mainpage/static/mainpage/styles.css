@@ -2,6 +2,7 @@
   background-image: url(home_bg.jpg);
   background-blend-mode: multiply;
   background-color: #020311d8;
+  background-repeat: no-repeat;
   background-size:cover;
   background-position: center;
 

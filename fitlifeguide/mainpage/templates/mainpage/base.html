@@ -38,7 +38,7 @@
             
             {% if user.is_authenticated %}
             <!-- Search Bar -->
-            <form class="d-flex mx-auto w-50 my-2 my-lg-0" role="search" method="get" action="{% url 'home' %}">
+            <form class="d-flex mx-auto w-lg-50 my-2 my-lg-0" role="search" method="get" action="{% url 'home' %}">
                 <div class="input-group">
                 <input type="search" class="form-control rounded-start-pill border-cyan transparent-bg"
                         placeholder="Search" name="q" aria-label="Search">
@@ -49,7 +49,9 @@
             </form>
             {% endif %}
             <!-- Sidebar in Collapse (for small screens only) -->
-            {% if user.is_authenticated %}
+            
+            
+            <!-- {% if user.is_authenticated %}
             <div class="d-lg-none mt-4">
                 <div class="card bg-dark text-light shadow-sm">
                 <div class="card-header bg-gradient text-white fw-bold">Profile</div>
@@ -88,10 +90,21 @@
                 </ul>
                 </div>
             </div>
-            {% endif %}
+            {% endif %} -->
 
             <!-- Nav Links -->
             <ul class="navbar-nav ms-auto gap-3">
+              <div class="d-lg-none navbar-nav gap-3">
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'profile' %}">View Profile</a></li>
+                
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'home' %}">Edit Status</a></li>
+                
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'home' %}">Meal Planner</a></li>
+                
+                <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'home' %}">Workout Hub</a></li>
+              </div>
+              
+              
                 <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'home' %}">Home</a></li>
                 {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link text-cyan" href="{% url 'forum_list' %}">Forum</a></li>
@@ -104,6 +117,17 @@
                 <li class="nav-item"><a class="btn btn-cyan rounded-5" href="{% url 'login' %}">Login</a></li>
                 <li class="nav-item"><a class="btn btn-cyan rounded-5" href="{% url 'register' %}">Register</a></li>
                 {% endif %}
+                <div class="d-lg-none">
+                  <li class="list-group-item bg-dark border-secondary">
+                      <form action="{% url 'logout' %}" method="post" class="m-0 p-0">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger w-100">
+                          <i class="bi bi-box-arrow-right me-1"></i>Logout
+                          </button>
+                      </form>
+                  </li>
+                </div>
+                
             </ul>
 
             
@@ -236,7 +260,7 @@
 
     
     <!-- Footer -->
-    <footer class="bg-dark text-light z-3">
+    <footer class="bg-dark text-light z-lg-3">
     <div class="container border-top border-secondary ">
         <div class="row mb-0 pt-3">
         <!-- Logo and Branding -->
