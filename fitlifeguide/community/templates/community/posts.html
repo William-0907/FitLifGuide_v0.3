@@ -10,7 +10,8 @@
   {% if user.is_authenticated %}
   <div id="createPostCard" class="card bg-dark border-secondary text-white shadow-sm mb-5 p-3" style="cursor: pointer;">
     <div class="d-flex align-items-center">
-      <img src="https://via.placeholder.com/40" class="rounded-circle me-3" alt="User" width="40" height="40">
+      <img src="{{ user.profile.avatar.url }}" class="rounded-circle me-3" alt="{{ user.username }}'s avatar" 
+           style="width: 40px; height: 40px; object-fit: cover;">
       <span class="text-white flex-grow-1">What's on your mind?</span>
       <i class="bi bi-plus-circle h4 text-info mb-0"></i>
     </div>
@@ -29,18 +30,46 @@
   {% for post in posts %}
   <div class="card bg-dark border-secondary text-light mb-4 shadow-sm post-card">
     <div class="card-body">
-      <h4 class="card-title">
-        <a href="{% url 'post_detail' slug=post.slug %}" class="text-decoration-none text-info">
-          {{ post.title }}
-        </a>
-      </h4>
-      <p class="card-subtitle small mb-2 text-light">
-        By {{ post.author.username }} · {{ post.created_at|date:"M d, Y" }}
-      </p>
+      <div class="d-flex align-items-center mb-3">
+        <img src="{{ post.author.profile.avatar.url }}" class="rounded-circle me-2" 
+             alt="{{ post.author.username }}'s avatar" style="width: 35px; height: 35px; object-fit: cover;">
+        <div>
+          <h4 class="card-title mb-0">
+            <a href="{% url 'post_detail' slug=post.slug %}" class="text-decoration-none text-info">
+              {{ post.title }}
+            </a>
+          </h4>
+          <p class="card-subtitle small mb-0 text-light">
+            By {{ post.author.username }} · {{ post.created_at|date:"M d, Y" }}
+          </p>
+        </div>
+      </div>
       <p class="card-text">
         {{ post.content|truncatewords:40 }}
       </p>
-      <a href="{% url 'post_detail' slug=post.slug %}" class="btn btn-outline-info btn-sm mt-2">Read More</a>
+      <div class="d-flex align-items-center mt-3">
+        <a href="{% url 'post_detail' slug=post.slug %}" class="btn btn-outline-info btn-sm me-auto">Read More</a>
+        <div class="d-flex align-items-center ms-3">
+          {% if user.is_authenticated %}
+          <form action="{% url 'like_post' post.slug %}" method="post" class="me-3">
+            {% csrf_token %}
+            <button type="submit" class="post-stat like-btn {% if user in post.likes.all %}liked{% endif %}">
+              <i class="fas fa-heart"></i>
+              <span class="ms-1 like-count">{{ post.total_likes }}</span>
+            </button>
+          </form>
+          {% else %}
+          <a href="{% url 'login' %}" class="post-stat me-3 no-hover">
+            <i class="fas fa-heart"></i>
+            <span class="ms-1">{{ post.total_likes }}</span>
+          </a>
+          {% endif %}
+          <a href="{% url 'post_detail' slug=post.slug %}#comments" class="post-stat">
+            <i class="fas fa-comment"></i>
+            <span class="ms-1">{{ post.comments.count }}</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
   {% empty %}
@@ -50,10 +79,115 @@
 
 <!-- Optional CSS for hover effect -->
 <style>
+  .post-card {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
   .post-card:hover {
     background-color: #1f1f1f;
-    border-color: #0d6efd;
+    border-color: #0dcaf0;
     transition: 0.3s ease;
   }
+
+  .post-card .fa-heart,
+  .post-card .fa-comment {
+    font-size: 0.9rem;
+  }
+
+  .post-stat {
+    background-color: rgba(13, 202, 240, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .post-stat:not(.no-hover):hover {
+    background-color: rgba(13, 202, 240, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .post-stat.like-btn {
+    outline: none;
+  }
+
+  .post-stat.like-btn:focus {
+    box-shadow: 0 0 0 2px rgba(13, 202, 240, 0.25);
+  }
+
+  .post-stat .fa-heart {
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.2s ease;
+  }
+
+  .post-stat:hover .fa-heart {
+    transform: scale(1.1);
+    color: rgba(255, 77, 109, 0.7);
+  }
+
+  .post-stat.liked .fa-heart {
+    color: #ff4d6d;
+    animation: heartBeat 0.3s ease-in-out;
+  }
+
+  .post-stat .fa-comment {
+    color: #0dcaf0;
+    transition: transform 0.2s ease;
+  }
+
+  .post-stat:hover .fa-comment {
+    transform: scale(1.1);
+  }
+
+  .post-stat span {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  @keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
 </style>
+
+<!-- Make sure Font Awesome is included -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const likeForms = document.querySelectorAll('form');
+  
+  likeForms.forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      fetch(this.action, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': this.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+        body: new FormData(this)
+      })
+      .then(response => response.json())
+      .then(data => {
+        const button = this.querySelector('button');
+        const likeCount = this.querySelector('.like-count');
+        
+        if (data.liked) {
+          button.classList.add('liked');
+        } else {
+          button.classList.remove('liked');
+        }
+        
+        likeCount.textContent = data.total_likes;
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  });
+});
+</script>
 {% endblock %}

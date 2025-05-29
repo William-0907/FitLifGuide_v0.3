@@ -1,0 +1,50 @@
+{% extends 'mainpage/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-dark border-secondary text-light shadow-sm">
+                <div class="card-header bg-transparent border-secondary">
+                    <h2 class="card-title mb-0 text-info">
+                        <i class="fas fa-plus-circle me-2"></i>Add New Workout
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-cyan">
+                                <i class="fas fa-save"></i> Save Workout
+                            </button>
+                            <a href="{% url 'tools:workout_hub' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-control, .form-select {
+    background-color: #1a1a1a;
+    border-color: #2d2d2d;
+    color: #fff;
+}
+.form-control:focus, .form-select:focus {
+    background-color: #1a1a1a;
+    border-color: #0d6efd;
+    color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.form-control::placeholder {
+    color: #6c757d;
+}
+</style>
+{% endblock %} 

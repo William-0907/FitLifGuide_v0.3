@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
+from .models import Profile
 
 
 
@@ -21,7 +22,46 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError("This username is already taken.")
         return username
 
-        
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+class ProfileUpdateForm(forms.ModelForm):
+    location = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    bio = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}))
+    birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    avatar = forms.ImageField(
+        required=False, 
+        widget=forms.FileInput(attrs={
+            'class': 'form-control',
+            'accept': 'image/*',
+            'data-preview': 'avatar-preview'
+        })
+    )
+    cover_image = forms.ImageField(
+        required=False, 
+        widget=forms.FileInput(attrs={
+            'class': 'form-control',
+            'accept': 'image/*',
+            'data-preview': 'cover-preview'
+        })
+    )
+    status = forms.ChoiceField(
+        choices=Profile.STATUS_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'form-control form-select',
+            'style': 'font-family: system-ui;'  # This ensures emojis display correctly
+        })
+    )
+
+    class Meta:
+        model = Profile
+        fields = ['location', 'bio', 'birth_date', 'avatar', 'cover_image', 'status']
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={

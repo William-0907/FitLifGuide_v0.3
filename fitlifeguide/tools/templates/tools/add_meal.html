@@ -1,0 +1,43 @@
+{% extends 'mainpage/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="card bg-dark text-light border-secondary">
+                <div class="card-header bg-dark border-secondary">
+                    <h3 class="card-title mb-0 grad">
+                        {% if form.instance.pk %}Edit{% else %}Add{% endif %} {{ meal_type }} for {{ day_name }}
+                        <div class="text-light-emphasis small mt-1">{{ date|date:"F d, Y" }}</div>
+                    </h3>
+                </div>
+                <div class="card-body px-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group mb-3">
+                                <label for="{{ field.id_for_label }}" class="text-aqua">{{ field.label }}</label>
+                                {{ field|add_class:"form-control" }}
+                                {% if field.help_text %}
+                                    <small class="form-text text-light-emphasis">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="alert alert-danger mt-1">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-cyan">Save Meal</button>
+                            <a href="{% url 'tools:meal_planner' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

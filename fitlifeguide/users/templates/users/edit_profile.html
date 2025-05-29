@@ -1,0 +1,167 @@
+{% extends 'mainpage/base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile - FitLifeGuide{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card bg-dark border-secondary">
+        <div class="card-header bg-gradient border-secondary">
+            <h4 class="card-title mb-0 text-cyan">
+                <i class="bi bi-pencil-square me-2"></i>Edit Profile
+            </h4>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" id="profile-form">
+                {% csrf_token %}
+                
+                <!-- Cover Image Preview and Upload -->
+                <div class="cover-image-section mb-4">
+                    <label class="form-label text-cyan">Cover Image</label>
+                    <div class="position-relative mb-3" style="height: 200px; overflow: hidden; border-radius: 10px;">
+                        <img id="cover-preview" src="{{ user.profile.cover_image.url }}" 
+                             class="w-100 h-100" style="object-fit: cover;" alt="Cover Image">
+                        <div class="position-absolute top-50 start-50 translate-middle" style="display: none;" id="cover-overlay">
+                            <div class="text-center text-light p-3 rounded-3" style="background: rgba(0,0,0,0.7);">
+                                <i class="bi bi-cloud-upload fs-1"></i>
+                                <p class="mb-0">Click to change cover image</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ p_form.cover_image }}
+                    </div>
+                </div>
+
+                <!-- Profile Picture Preview and Upload -->
+                <div class="avatar-section text-center mb-4">
+                    <label class="form-label text-cyan">Profile Picture</label>
+                    <div class="position-relative d-inline-block mb-3">
+                        <div class="rounded-circle overflow-hidden" style="width: 150px; height: 150px;">
+                            <img id="avatar-preview" src="{{ user.profile.avatar.url }}" 
+                                 class="w-100 h-100" style="object-fit: cover;" alt="Profile Picture">
+                        </div>
+                        <div class="position-absolute top-50 start-50 translate-middle" style="display: none;" id="avatar-overlay">
+                            <div class="text-center text-light p-2 rounded-circle" style="background: rgba(0,0,0,0.7);">
+                                <i class="bi bi-camera fs-3"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ p_form.avatar }}
+                    </div>
+                </div>
+
+                <!-- User Information -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-cyan">Username</label>
+                        {{ u_form.username }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-cyan">Email</label>
+                        {{ u_form.email }}
+                    </div>
+                </div>
+
+                <!-- Profile Information -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-cyan">Location</label>
+                        {{ p_form.location }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-cyan">Birth Date</label>
+                        {{ p_form.birth_date }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-cyan">Bio</label>
+                    {{ p_form.bio }}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-cyan">Status</label>
+                    {{ p_form.status }}
+                </div>
+
+                <div class="text-end">
+                    <a href="{% url 'profile' %}" class="btn btn-outline-secondary me-2">Cancel</a>
+                    <button type="submit" class="btn btn-cyan">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle image preview
+    function setupImagePreview(inputId, previewId, overlayId) {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        const overlay = document.getElementById(overlayId);
+        const previewContainer = preview.parentElement;
+
+        // Show overlay on hover
+        previewContainer.addEventListener('mouseenter', () => {
+            overlay.style.display = 'block';
+        });
+
+        previewContainer.addEventListener('mouseleave', () => {
+            overlay.style.display = 'none';
+        });
+
+        // Handle click on preview
+        previewContainer.addEventListener('click', () => {
+            input.click();
+        });
+
+        // Handle file selection
+        input.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+
+    // Setup preview for both avatar and cover image
+    setupImagePreview('id_avatar', 'avatar-preview', 'avatar-overlay');
+    setupImagePreview('id_cover_image', 'cover-preview', 'cover-overlay');
+});
+</script>
+
+<style>
+.cover-image-section, .avatar-section {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cover-image-section:hover, .avatar-section:hover {
+    opacity: 0.9;
+}
+
+#id_avatar, #id_cover_image {
+    display: none;
+}
+
+.btn-cyan {
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+    color: #000;
+}
+
+.btn-cyan:hover {
+    background-color: #0bacce;
+    border-color: #0bacce;
+    color: #000;
+}
+</style>
+{% endblock %} 

@@ -1,10 +1,11 @@
 create a virtual environment
 
-pip install django
-
-pip install crispy-bootstrap5
-pip install django-crispy-forms
-pip install django-widget-tweaks
-pip install pillow
-pip install isodate
-pip install requests
+Django>=5.2.1
+crispy-bootstrap5>=0.7
+django-crispy-forms>=2.1
+django-widget-tweaks>=1.4.12
+Pillow>=10.0.0
+isodate>=0.6.1
+requests>=2.31.0
+django-mptt>=0.15.0
+python-dotenv>=1.0.0

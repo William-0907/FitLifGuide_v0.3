@@ -1,0 +1,107 @@
+{% extends 'mainpage/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card bg-dark text-light">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">{{ post.title }}</h2>
+            {% if user == post.author %}
+            <div>
+                <a href="{% url 'delete_post' post.slug %}" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash"></i> Delete
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <small class="text-muted">
+                    Posted by {{ post.author.username }} on {{ post.created_at|date:"F j, Y" }}
+                </small>
+            </div>
+            <div class="post-content mb-4">
+                {{ post.content|linebreaks }}
+            </div>
+            <div class="d-flex align-items-center mb-4">
+                <form action="{% url 'like_post' post.slug %}" method="post" class="like-form me-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary btn-sm {% if user_has_liked %}active{% endif %}">
+                        <i class="fas fa-heart"></i> 
+                        <span class="like-count">{{ post.total_likes }}</span>
+                    </button>
+                </form>
+                <small class="text-muted">{{ post.comments.count }} comments</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="card bg-dark text-light mt-4">
+        <div class="card-header">
+            <h4>Comments</h4>
+        </div>
+        <div class="card-body">
+            {% if user.is_authenticated %}
+            <form method="post" class="mb-4">
+                {% csrf_token %}
+                {{ form.content }}
+                <button type="submit" class="btn btn-primary mt-2">Add Comment</button>
+            </form>
+            {% else %}
+            <p class="text-muted mb-4">Please <a href="{% url 'login' %}">log in</a> to comment.</p>
+            {% endif %}
+
+            <div class="comments-list">
+                {% for comment in comments %}
+                <div class="comment mb-3 p-3 border-bottom">
+                    <div class="d-flex justify-content-between">
+                        <strong>{{ comment.author.username }}</strong>
+                        <small class="text-muted">{{ comment.created_at|date:"F j, Y" }}</small>
+                    </div>
+                    <p class="mt-2 mb-0">{{ comment.content|linebreaks }}</p>
+                </div>
+                {% empty %}
+                <p class="text-muted">No comments yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const likeForms = document.querySelectorAll('.like-form');
+    
+    likeForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': this.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                body: new FormData(this)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const button = this.querySelector('button');
+                const likeCount = this.querySelector('.like-count');
+                
+                if (data.liked) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+                
+                likeCount.textContent = data.total_likes;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1d20;
+            color: #ffffff;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid rgba(13, 202, 240, 0.3);
+        }
+        .brand {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+            background: -webkit-linear-gradient(45deg,#fda3ea,#b8c9ff,#c6fffa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            position: relative;
+        }
+        /* Fallback for email clients that don't support gradients */
+        @media not all {
+            .brand {
+                background: none;
+                -webkit-text-fill-color: #b8c9ff;
+                color: #b8c9ff;
+            }
+        }
+        .content {
+            padding: 30px 0;
+            text-align: center;
+        }
+        .otp-box {
+            background-color: #2c3034;
+            border: 1px solid rgba(13, 202, 240, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .otp-code {
+            font-size: 32px;
+            letter-spacing: 5px;
+            background: -webkit-linear-gradient(45deg,#fda3ea,#b8c9ff,#c6fffa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            margin: 10px 0;
+            display: inline-block;
+        }
+        /* Fallback for email clients that don't support gradients */
+        @media not all {
+            .otp-code {
+                background: none;
+                -webkit-text-fill-color: #b8c9ff;
+                color: #b8c9ff;
+            }
+        }
+        .timer-note {
+            color: #ffc107;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .lightning-icon {
+            color: #c6fffa;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="brand">
+                <span class="lightning-icon">⚡</span>FitLifeGuide
+            </h1>
+        </div>
+        <div class="content">
+            <h2>Verify Your Login</h2>
+            <p>Hello {{ user.username }},</p>
+            <p>Your one-time password (OTP) for login verification is:</p>
+            
+            <div class="otp-box">
+                <div class="otp-code">{{ otp }}</div>
+                <p class="timer-note">⏰ This code will expire in 5 minutes</p>
+            </div>
+            
+            <p>If you didn't request this code, please ignore this email.</p>
+        </div>
+        <div class="footer">
+            <p>This is an automated message, please do not reply to this email.</p>
+            <p>&copy; {% now "Y" %} FitLifeGuide. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html> 
