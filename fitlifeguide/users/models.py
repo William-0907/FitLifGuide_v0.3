@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from PIL import Image
 import os
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 class EmailOTP(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -108,8 +110,23 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
+        # Create profile
         profile = Profile.objects.create(user=instance)
         profile.create_default_avatar()
+        
+        # Send welcome email
+        subject = 'Welcome to FitLifeGuide!'
+        html_content = render_to_string('users/welcome_email.html', {'username': instance.username})
+        text_content = f'Hi {instance.username},\n\nThank you for registering with FitLifeGuide. We\'re excited to help you reach your fitness goals.\n\nIf you have any questions, feel free to reply to this email.\n\n– The FitLifeGuide Team'
+        
+        msg = EmailMultiAlternatives(
+            subject,
+            text_content,
+            'noreply@fitlifeguide.com',
+            [instance.email]
+        )
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
