@@ -7,7 +7,9 @@
         <div class="{% if user.is_authenticated %}d-none {% else %} text-light text-center h-100 bg-img bg-full {% endif %}">
             <h1 class="display-1 pt-5 fw-bold grad my-5">Welcome to FitLifeGuide</h1>
             <p class="lead">Your journey to a healthier, stronger, and better life starts here.</p>
-            <a href="{% url 'register' %}" class="btn btn-linear btn-lg rounded-pill">Join Now</a>
+            <div class="d-inline-block">
+                <a href="{% url 'register' %}" class="btn btn-linear btn-lg rounded-pill">Join Now</a>
+            </div>
         </div>
     </div>
 </div>
