@@ -1,7 +1,7 @@
 .bg-img{
-  background-image: url(home_bg.jpg);
+  background-image: url('home_bg.jpg');
   background-blend-mode: multiply;
-  background-color: #020311d8;
+  background-color: rgba(2, 3, 17, 0.85);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
