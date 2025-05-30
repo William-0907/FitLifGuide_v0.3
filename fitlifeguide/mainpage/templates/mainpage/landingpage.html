@@ -2,9 +2,9 @@
 {% block title %}Welcome to FitLifeGuide{% endblock %}
 
 {% block content1 %}
-<div class="row py-5">
-    <div class="bg-full py-5">
-        <div class="{% if user.is_authenticated %}d-none {% else %} text-light text-center shadow-sm  h-100 py-5 bg-img bg-full {% endif %}">
+<div class="row g-0">
+    <div class="bg-full">
+        <div class="{% if user.is_authenticated %}d-none {% else %} text-light text-center h-100 bg-img bg-full {% endif %}">
             <h1 class="display-1 pt-5 fw-bold grad my-5">Welcome to FitLifeGuide</h1>
             <p class="lead">Your journey to a healthier, stronger, and better life starts here.</p>
             <a href="{% url 'register' %}" class="btn btn-linear btn-lg rounded-pill">Join Now</a>
@@ -57,13 +57,13 @@
         <div class="col-md-6">
             <blockquote class="blockquote">
                 <p>"I lost 20 pounds and gained a ton of confidence thanks to FitLifeGuide!"</p>
-                <footer class="blockquote-footer">Sarah J.</footer>
+                <footer class="blockquote-footer">John V.</footer>
             </blockquote>
         </div>
         <div class="col-md-6">
             <blockquote class="blockquote">
                 <p>"The community kept me motivated — now I'm in the best shape of my life."</p>
-                <footer class="blockquote-footer">Mike B.</footer>
+                <footer class="blockquote-footer">Kim C.</footer>
             </blockquote>
         </div>
     </div>

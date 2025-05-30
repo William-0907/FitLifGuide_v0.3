@@ -3,15 +3,32 @@
 <html>
 <head>
     <title>Verify OTP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'mainpage/styles.css' %}">
+    <style>
+        @media (max-width: 768px) {
+            .card {
+                margin: 10px;
+            }
+            .container {
+                padding: 0 15px;
+            }
+            #timer {
+                font-size: 1.2rem;
+            }
+            .btn {
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
 </head>
 <body class="bg-img">
 
-<div class="container mt-5">
+<div class="container mt-4 mt-lg-5">
     <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card p-4 shadow rounded-3 bg-dark border-cyan">
+        <div class="col-12 col-md-8 col-lg-5">
+            <div class="card p-3 p-md-4 shadow rounded-3 bg-dark border-cyan">
                 <h2 class="grad text-center">FitlifeGuide</h2>
                 <h3 class="text-center mb-4 text-light">Verify OTP</h3>
                 <form method="post" novalidate>
